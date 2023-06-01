@@ -1,0 +1,11 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Statement}{}{chapter*.1}%
+\contentsline {chapter}{Index}{}{chapter*.1}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Environment setup}{2}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Dataset: A look inside}{3}{chapter.3}%
+\contentsline {chapter}{\numberline {4}Recommender system}{4}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Creation of a Content-based Recommender system}{5}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Scalability and complexity}{6}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Results and experiments}{7}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Conclusion}{8}{chapter.8}%

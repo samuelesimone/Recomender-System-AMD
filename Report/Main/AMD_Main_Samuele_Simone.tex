@@ -1,0 +1,72 @@
+% !TeX spellcheck = en_US 
+\documentclass[12pt,english]{report}
+\usepackage{tesi}
+% CORSO DI LAUREA:
+\def\myCDL{Master degree in\\Computer Science}
+
+% TITOLO REPORT:
+\def\myTitle{Algorithms for massive datasets \\
+\large{Final report about Recommender System}}
+
+% AUTORE:
+\def\myName{Samuele Simone}
+\def\myMat{Matr. Nr. 11910A}
+
+\def\myRefereeA{Prof. Dario Malchiodi}
+
+% ANNO ACCADEMICO
+\def\myYY{2022-2023}
+
+% Il seguente comando introduce un elenco delle figure dopo l'indice (facoltativo)
+%\figurespagetrue
+
+% Il seguente comando introduce un elenco delle tabelle dopo l'indice (facoltativo)
+%\tablespagetrue
+
+
+% Package di formato
+\usepackage[a4paper]{geometry}		% Formato del foglio
+\usepackage[english]{babel}			% Supporto per l'italiano
+\usepackage[utf8]{inputenc}			% Supporto per UTF-8
+%\usepackage[a-1b]{pdfx}			% File conforme allo standard PDF-A (obbligatorio per la consegna)
+
+% Package per la grafica
+\usepackage{graphicx}				% Funzioni avanzate per le immagini
+\usepackage{hologo}					% Bibtex logo with \hologo{BibTeX}
+%\usepackage{epsfig}				% Permette immagini in EPS
+%\usepackage{xcolor}				% Gestione avanzata dei colori
+
+% Package tipografici
+\usepackage{amssymb,amsmath,amsthm} % Simboli matematici
+\usepackage{listings}				% Scrittura di codice
+
+% Package ipertesto
+\usepackage{url}					% Visualizza e rendere interattii gli URL
+\usepackage{hyperref}				% Rende interattivi i collegamenti interni
+
+
+\begin{document}
+% Creazione automatica del frontespizio
+\frontespizio
+\prefacesection{Statement}
+\textit{I/We declare that this material, which I/We now submit for assessment, is entirely my/our own work and has not been taken from the work of others, save and to the extent that such work has been cited and acknowledged within the text of my/our work. I/We understand that plagiarism, collusion, and copying are grave and serious offences in the university and accept the penalties that would be imposed should I engage in plagiarism, collusion or copying. This assignment, or any part of it, has not been previously submitted by me/us or any other person for assessment on this or any other course of study.}
+
+\afterpreface
+
+% 
+%			CAPITOLO 1: Introduzione o Abstract
+% 
+
+\chapter{Introduction}\label{cap:introduction}
+\chapter{Environment setup}\label{cap:environment}
+\chapter{Dataset: A look inside}\label{cap:dataset}
+\chapter{Recommender system}\label{cap:recsys}
+\chapter{Creation of a Content-based Recommender system}\label{cap:recsyscontbased}
+\chapter{Scalability and complexity}\label{cap:scalability}
+\chapter{Results and experiments}\label{cap:results}
+\chapter{Conclusion}\label{cap:conclusion}
+
+
+
+
+\end{document}
