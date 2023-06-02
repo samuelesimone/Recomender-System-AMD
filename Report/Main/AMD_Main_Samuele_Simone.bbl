@@ -1,0 +1,44 @@
+\begin{thebibliography}{10}
+
+\bibitem{rajaraman2014mining}
+Anand Rajaraman, Jure Leskovec, and Jeffrey~D. Ullman.
+\newblock {\em Mining Massive Datasets}.
+\newblock Cambridge University Press, 2014.
+
+\bibitem{pysparkoverview}
+Apache Spark.
+\newblock Pyspark overview, 2023.
+
+\bibitem{sparkconf}
+Apache Spark.
+\newblock pyspark.sparkconf, 2023.
+
+\bibitem{sparksession}
+Apache Spark.
+\newblock pyspark.sparksession, 2023.
+
+\bibitem{pysparkml}
+Apache Spark.
+\newblock pyspark.ml, 2023.
+
+\bibitem{pysparkfunc}
+Apache Spark.
+\newblock pyspark.sql.function, 2023.
+
+\bibitem{kaggle}
+Mahmoud~Hassan Mahmoud.
+\newblock What is kaggle?, 2022.
+
+\bibitem{pandas}
+Pandas.
+\newblock Pandas package overview, 2023.
+
+\bibitem{scikit}
+codecademy.
+\newblock What is scikit-learn?, 2023.
+
+\bibitem{numpy}
+codecademy.
+\newblock What is numpy?, 2023.
+
+\end{thebibliography}

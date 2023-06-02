@@ -2,9 +2,18 @@
 \contentsline {chapter}{Index}{}{Doc-Start}%
 \contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}%
 \contentsline {chapter}{\numberline {2}Environment setup}{3}{chapter.2}%
-\contentsline {chapter}{\numberline {3}Dataset: A look inside}{4}{chapter.3}%
-\contentsline {chapter}{\numberline {4}Recommender system}{5}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Creation of a Content-based Recommender system}{6}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Scalability and complexity}{7}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Results and experiments}{8}{chapter.7}%
-\contentsline {chapter}{\numberline {8}Conclusion}{9}{chapter.8}%
+\contentsline {section}{\numberline {2.1}Pyspark setup}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Kaggle setup}{4}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Pandas setup}{5}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Scikit-learn setup}{5}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Numpy setup}{6}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Dataset: A look inside}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Data loading}{7}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Visualizing the data}{8}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Data Filtering}{8}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Data preprocessing}{9}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Recommender system}{11}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Creation of a Content-based Recommender system}{12}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Scalability and complexity}{13}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Results and experiments}{14}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Conclusion}{15}{chapter.8}%
