@@ -36,6 +36,7 @@
 %\usepackage{epsfig}				% Permette immagini in EPS
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{hyperref}
 
 %Creating dark code theme for listings
 \definecolor{codegreen}{rgb}{0.58,0.88,0.58}
@@ -74,6 +75,12 @@
 \usepackage{notes2bib}
 
 \usepackage{multirow}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan,
+    filecolor=magenta,  
+    }
 \begin{document}
 % Creazione automatica del frontespizio
 \frontespizio
@@ -270,12 +277,125 @@ BestNights & RestaurantsCounterService & WiFi & ... & Smoking & CoatCheck \\ \hl
 1          & 0                         & 1    & ... & 1       & 1         \\ \hline
 \end{tabular}
 \end{table}
-We apply this reasoning also for categories obtaining the \texttt{df\textunderscore categories\textunderscore dm}. It will be useful to create the \texttt{df\textunderscore final}, a fundamental component for the recommender system. So in the Chapter \ref{ch:recsys} we are going to understand how recommendation systems work in theory.
+We apply this reasoning also for categories obtaining the \texttt{df\textunderscore categories\textunderscore dm}. It will be useful to create the \texttt{df\textunderscore total}, a fundamental component for the recommender system. So in the Chapter \ref{ch:recsys} we are going to understand how recommendation systems work in theory.
 \chapter{Recommender system}\label{ch:recsys}
+As we mentioned in the Chapter \ref{ch:introduction}, there are two main basic architectures for a recommendation system. In my project I developed from scratch  more on a \textit{Content-Based} recommendation system. They are based on properties of items and the similarity of these are determined by measuring the similarity in their properties.
+However I also worked with the ALS as \textit{Collaborative Filtering} using the PySpark library to compare mine with the one developed with the library. In this Chapter we give to the reader the general notion behind recommender system based on the reference book \cite{rajaraman2014mining}.
+\section{Content-Based Recommendations}
+We are starting to understand what is an item profiles. It's a record or collection of records representing important characteristics of the item. For example if we consider the restaurants as type of business of this project, we can say that the features of a restaurants can be all the attributes such as \textit{GoodForKids,BusinessAcceptsBitcoin,DogsAllowed...}.
+In order to be a recommender system we need also the user. Indeed also the users has their profiles that describes their preferences. \par
+Another fundamental aspect is the utility matrix. It's giving for each user-item pair, a value that represents what is known about the degree of preference of that user for that item. Without a utility matrix, it is almost impossible to recommend items. Usually there are two main approaches: 
+\begin{itemize}
+ \item We can ask users to evaluate items. We fall in this case because the from the dataset \texttt{review} we can access to all user-business pair reviews with the respective rate.
+ \item We can make inferences from user's behavior. Indeed if one user buy something online or just watched a video we can say that he liked it.
+ \end{itemize} 
+Our ultimate goal for content-based recommendation is to create both a item profile consisting of feature-value pairs and a user profile summarizing the preferences of the user,based of their row of the utility matrix.If we consider profiles as vectors we can compute the cosine similarity in the space of the features and understand if the vectors appears closer or not. In this way we can recommend business to the user based on his preferences.
+\section{Collaborative Filtering}
+When we are referring to Collaborative Filtering we are focusing on the similarity of the user ratings for two items. In place of the item-profile vector for an item, we use its column in the utility matrix. User are similar if their vectors are close according to some notion of distance measures such as cosine distance. The process of identifying similar user and recommending what similar users like is called collaborative filtering.
 \chapter{Creation of a Content-based Recommender system}\label{ch:recsyscontbased}
+Before I talk about the content-based recommendation system that I created from scratch, I want to highlight some of the steps that allowed me to arrive at the solution or at least allowed me to learn more about the data I had at my disposal.
+\section{Business similarity suggestion with Pandas and cosine similarity}
+First of all I tried to create a suggestion system by looking the business similarity. For achieve this goal I used in this step Pandas. I performed this steps:
+\begin{enumerate}
+\item Extract the reference restaurant index
+\item Mapping the rate (1-3 stars will be mapped in 0 and 4-5 in 1)
+\item Create the \texttt{cosine\textunderscore similarity\textunderscore scratch} function
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:cosinesim},caption={Cosine similarity function}]
+def cosine_similarity_scratch(vector1, vector2):
+    dot_product = np.dot(vector1, vector2)
+    norm_vector1 = np.linalg.norm(vector1)
+    norm_vector2 = np.linalg.norm(vector2)
+    
+    if norm_vector1 == 0 or norm_vector2 == 0:
+        return 0.0
+    
+    similarity = dot_product / (norm_vector1 * norm_vector2)
+    return similarity
+
+\end{lstlisting}
+\item Calculate business similarity respect the one selected. Order the similar restaurants in a descending way and then select n (= 5 in this case) top similar restaurant and print it.
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:simpandas},caption={Suggestion system in Pandas}]
+restaurant_features = features_df.iloc[restaurant_index, 6:-2].values  # Reference restaurant feature vector
+
+similarities = []
+for i in range(len(features_df)):
+    if i != restaurant_index:
+        other_restaurant_features = features_df.iloc[i, 6:-2].values
+        similarity = cosine_similarity_scratch(restaurant_features, other_restaurant_features)
+        similarities.append(similarity)
+
+similarities = np.array(similarities)
+similar_restaurants = similarities.argsort()[::-1]  # Similar restaurant ordered in a desc way
+
+# Visualize 5 top suggested restaurants with cosine sim column
+top_similar_restaurants = similar_restaurants[:5]
+recommended_restaurants = df_total.iloc[top_similar_restaurants][['name', 'stars']]
+recommended_restaurants['cosine_similarity'] = similarities[top_similar_restaurants]
+
+print(recommended_restaurants)
+
+\end{lstlisting}
+\end{enumerate}
+So now I will show the results obtained.
+\subsection{Experiment}
+I choose the \texttt{8071} restaurant index called \texttt{Adelita Taqueria \& Restaurant}.
+It's a mexican restaurant located in 1108 S 9th St Philadelphia, PA 19147. In the note the link of the restaurant on Yelp.\footnote{\url{https://www.yelp.com/biz/adelita-taqueria-and-restaurant-philadelphia?osq=Adelita+Taqueria\%26+Restaurant}}
+The restaurant counts 39 reviews with an average rating of 4.5 stars.\par
+The similar business that the system recommend are these reported in the Table \ref{simrespand} where there are linked their Yelp page.
+\begin{table}[]
+\caption{Top similar business recommended in Pandas}
+\label{simrespand}
+\begin{tabular}{|l|l|l|l|}
+\hline
+     & name                           & stars & cosine\_similarity \\ \hline
+7109 & \href{https://www.yelp.com/biz/los-taquitos-de-puebla-philadelphia-4?osq=Los+Taquitos+de+Puebla}{Los Taquitos de Puebla}         & 4     & 1.000000           \\ \hline
+5990 & \href{https://www.yelp.com/biz/san-antonio-mexican-cousine-hatfield?osq=San+Antonio+Mexican+cousine}{San Antonio Mexican cousine}    & 5     & 1.000000           \\ \hline
+3534 & \href{https://www.yelp.com/biz/los-cuatro-soles-philadelphia?osq=Los+Cuatro+Soles}{Los Cuatro Soles}              & 5     & 0.942809           \\ \hline
+3292 & \href{https://www.yelp.com/biz/ecowas-african-restaurant-philadelphia-2}{El Limon - Norristown}          & 4     & 0.942809           \\ \hline
+1525 & \href{https://www.yelp.com/biz/la-hacienda-mexican-restaurant-bensalem?osq=La+Hacienda+Mexican+Restaurant}{La Hacienda Mexican Restaurant} & 4     & 0.942809           \\ \hline
+\end{tabular}
+\end{table}
+They are all mexican restaurant so it's perfectly matching our selected restaurant.
+I tried also to use a cosine similarity library from \texttt{from sklearn.metrics.pairwise import cosine\_similarity} and the results are quite similar as shown in Table \ref{simrespandsklearn}.
+\begin{table}[]
+\caption{Top similar business recommended in Pandas with sklearn cosine similarity}
+\label{simrespandsklearn}
+\begin{tabular}{|l|l|l|}
+\hline
+name                        & cosine similarity  & stars \\ \hline
+San Antonio Mexican cousine & 0.9999999999999999 & 5     \\ \hline
+Los Taquitos de Puebla      & 0.9486832980505138 & 4     \\ \hline
+\href{https://www.yelp.com/biz/ecowas-african-restaurant-philadelphia-2}{El Charro Negro            } & 0.9486832980505138 & 4     \\ \hline
+El Limon - Norristown       & 0.9128709291752769 & 4     \\ \hline
+\href{https://www.yelp.com/biz/plaza-garibaldi-philadelphia-3?osq=Plaza+Garibaldi}{Plaza Garibaldi}             & 0.8999999999999999 & 4     \\ \hline
+\end{tabular}
+\end{table}
+\section{Business similarity suggestion with k-NN algorithm}
+I continued my search for similar restaurants also based on the k-nn algorithm. In brief it's a a supervised machine learning approach called k-nearest neighbors (k-NN) and it is utilized for both classification and regression problems. It is a non-parametric algorithm that bases its predictions on how closely new input data and training examples resemble each other. \par
+The "k" in the k-NN method denotes how many nearest neighbors are taken into account while producing predictions.
+The steps done are the following: 
+\begin{itemize}
+\item Take features excluding name and stars from the \texttt{df\_total} as x and stars as y
+\item Splitting the data into training set and test set 
+\item To figure out which k to choose, I applied 5-fold cross-validation and the best value for k is 20.
+\item Then I fitted the model and printed the results \par
+\texttt{Score on training set: 0.5624903205823137 ; Score on test set: 0.52198142486068}
+\item Testing the model and use the last row as the validation test 
+\item Getting the similar restaurants compared with the one taken in the validation test.
+\end{itemize}
+In the end, the results obtained are comparable with the other two approaches (cosine similarity from scratch and sklearn).
+
+
+\section{Business similarity suggestion with PySpark and cosine similarity}
+\section{Collaborative filtering with ALS ml library}
+\section{Content based recommendation from scratch in PySpark}
+
 \chapter{Scalability and complexity}\label{ch:scalability}
+\section{System specification}
 \chapter{Results and experiments}\label{ch:results}
+\section{NDCG}
 \chapter{Conclusion}\label{ch:conclusion}
+%dataset reduced
 
 
 \lstlistoflistings
