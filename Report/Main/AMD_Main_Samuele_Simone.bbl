@@ -41,4 +41,9 @@ codecademy.
 codecademy.
 \newblock What is numpy?, 2023.
 
+\bibitem{matrixfact}
+towardsdatascience.
+\newblock Alternating least square (als) matrix factorization in collaborative
+  filtering, 2018.
+
 \end{thebibliography}

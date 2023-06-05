@@ -433,8 +433,24 @@ fcAaBcYFo1YqetIjs9l8Iw   & {[}{[}0.9566222088265397{]}{]} & Sungate Diner       
 uh-387pbyipzjCMcj5Dy6w   & {[}{[}0.9566222088265397{]}{]} & Las Palmas Del Sur     & 4.5 \\ \hline
 \end{tabular}
 \end{table}
-Also you can see that they are all restaurants that cook Mexican style.
+Also you can see that they are all restaurants that cook Mexican style. But these methods are based solely and exclusively on the profile of the restaurants without taking into account the feedback that the user has given to the various restaurants. For this reason, I decided to continue the project by introducing the user profile component as well.
 \section{Collaborative filtering with ALS ml library}
+In collaborative filtering, matrix factorization is the state-of-the-art solution for sparse data problem, although it has become widely known since Netflix Prize Challenge.
+A matrix factorization is a factorization of a matrix into a product of matrices. 
+In the case of collaborative filtering, matrix factorization algorithms work by decomposing the user-item interaction matrix into the product of two lower dimensionality rectangular matrices.One matrix can be seen as the user matrix where rows represent users and columns are latent factors. The other matrix is the item matrix where rows are latent factors and columns represent items \cite{matrixfact}. Here's a picture that describe the matrix factorization.
+\begin{figure}[hbtp]
+\caption{Example of Matrix Factorization}
+\centering
+\includegraphics[scale=0.6]{../Images/matrixfact.png}
+\end{figure}
+The advantages of using this approach are mainly two:
+\begin{itemize}
+\item Model learns to factorize rating matrix into user and business representations, which allows model to predict better personalized business ratings for users
+\item Less-known business can have rich latent representations as much as popular business have
+\end{itemize}
+More formally, in a sparse user-item interaction matrix the predicted rating user \textit{u} will give item \textit{i} is computed as:
+$$r_{ui} = \sum_{f=0}^{nfactors} H_{u,f}W_{f,i}$$
+Rating of item i given by user u can be expressed as a dot product of the user latent vector and the item latent vector.  Latent factors are the features in the lower dimension latent space projected from user-item interaction matrix.The objective of matrix factorization is to minimize the error between true rating and predicted rating.
 \section{Content based recommendation from scratch in PySpark}
 
 \chapter{Scalability and complexity}\label{ch:scalability}
