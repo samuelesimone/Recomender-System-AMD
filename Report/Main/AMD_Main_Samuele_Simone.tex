@@ -294,7 +294,7 @@ Our ultimate goal for content-based recommendation is to create both a item prof
 When we are referring to Collaborative Filtering we are focusing on the similarity of the user ratings for two items. In place of the item-profile vector for an item, we use its column in the utility matrix. User are similar if their vectors are close according to some notion of distance measures such as cosine distance. The process of identifying similar user and recommending what similar users like is called collaborative filtering.
 \chapter{Creation of a Content-based Recommender system}\label{ch:recsyscontbased}
 Before I talk about the content-based recommendation system that I created from scratch, I want to highlight some of the steps that allowed me to arrive at the solution or at least allowed me to learn more about the data I had at my disposal.
-\section{Business similarity suggestion with Pandas and cosine similarity}
+\section{Business similarity suggestion with Pandas and cosine similarity}\label{bussimpand}
 First of all I tried to create a suggestion system by looking the business similarity. For achieve this goal I used in this step Pandas. I performed this steps:
 \begin{enumerate}
 \item Extract the reference restaurant index
@@ -384,9 +384,56 @@ The steps done are the following:
 \item Getting the similar restaurants compared with the one taken in the validation test.
 \end{itemize}
 In the end, the results obtained are comparable with the other two approaches (cosine similarity from scratch and sklearn).
-
-
 \section{Business similarity suggestion with PySpark and cosine similarity}
+In this section I wanted to focus more on the scalability of the system. Therefore, I converted the approach used in section \ref{bussimpand} to PySpark, performing all the preprocessing by obtaining \texttt{df\_final\_spark}. Specifically, I summarize the operations:
+\begin{itemize}
+\item Transform the categories into a list of categories for the business
+\item Perform filtering by state and business type.
+\item Extract the attributes as columns and then having some columns of nested attributes I re-run the operation
+\item Transform the values to 0-1 obtaining the \texttt{df\_business\_attr\_spark}
+\item Same for categories creating the \texttt{df\_categories\_dm}
+\item Finally I get the \texttt{df\_final\_spark} by the join between the categories,attributes and the \texttt{restaurant\_df\_sel\_spark} which contains the name and ratings of the various businesses.
+\end{itemize}
+Once I had completed all the preprocessing phase and obtained the various df's I could proceed with the recommendation. As seen in the code shown I created the \texttt{df\_matrix} that contains \textit{business\_id,features}. The features were generated using \texttt{VectorAssembler}.It is a feature transformer that combines multiple input columns into a single vector column.
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:simpyspark},caption={Suggestion system in PySpark}]
+# Exclude the 'business_id' column from df_final
+columns = [c for c in df_final_spark.columns if c != 'business_id']
+
+# Convert binary values to integers
+df_numeric = df_final_spark.select(['business_id'] + [col(c).cast('integer') for c in columns])
+
+# Fill NaN values with 0
+df_filled = df_numeric.fillna(0, subset=columns)
+
+# Use VectorAssembler to create a feature vector column
+assembler = VectorAssembler(inputCols=columns, outputCol='features')
+df_matrix = assembler.transform(df_filled).select('business_id', 'features')
+\end{lstlisting}
+After that I proceeded to run the same test on the \textit{Adelita Taqueria \& Restaurant} using \texttt{cosine\_similarity\_spark} slightly modified to make it work properly with the PySpark pipeline.
+In this case I wanted to select 15 as the number of recommendations.This is the table obtained:\par
+\begin{table}[h]
+\caption{Top similar business recommended in PySpark}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{business\_id}            & \multicolumn{1}{c|}{cosine\_similarity} & \multicolumn{1}{c|}{name}                        & \multicolumn{1}{c|}{stars} \\ \hline
+\multicolumn{1}{|c|}{F2QwLwzS3vF9os0...} & \multicolumn{1}{c|}{{[}{[}1.0{]}{]}}    & \multicolumn{1}{c|}{San Antonio Mexican cousine} & \multicolumn{1}{c|}{4.5}   \\ \hline
+DwOhLOd9Say...   & {[}{[}0.9803789354850793{]}{]} & Los Taquitos de Puebla & 3.5 \\ \hline
+EoQiJ5D-pyWc...  & {[}{[}0.9714285714285714{]}{]} & El Primo Taqueria      & 4.5 \\ \hline
+XQewVfTaosZ3U-4g...  & {[}{[}0.9714285714285714{]}{]} & Los Cuatro Soles       & 4.5 \\ \hline
+mKJ\_WV7TvrjyDjm... & {[}{[}0.9710083124552245{]}{]} & El Limon - Bensalem    & 4.5 \\ \hline
+SVf23pjKERkedqCdWl6ECA   & {[}{[}0.9660917830792959{]}{]} & Teresa's Mesa          & 4.0 \\ \hline
+5ItgryJvadUrKVljjJ8l4g   & {[}{[}0.9660917830792959{]}{]} & Que Chula Es Puebla    & 4.0 \\ \hline
+rNg75hKR0UIB5-jX5WiVQg   & {[}{[}0.9660917830792959{]}{]} & Los Mariachis          & 3.5 \\ \hline
+1MVMKUvZfWwIqkhxP3rYvQ   & {[}{[}0.9613406389911041{]}{]} & Indian Garden          & 4.0 \\ \hline
+sKUs4ISUgn3j6SeLYvSByg   & {[}{[}0.9613406389911041{]}{]} & El Charro Negro        & 4.0 \\ \hline
+x1CtK2qnlCr\_1DJFNo1\_vw & {[}{[}0.9583148474999098{]}{]} & El Limon - Norristown  & 4.0 \\ \hline
+venWfi69QVylbyrvaPt0nQ   & {[}{[}0.9578414886923188{]}{]} & Cafe Ynez              & 4.5 \\ \hline
+t0Qyogb4x--K9i5b0AoDCg   & {[}{[}0.9578414886923188{]}{]} & Taco Maya              & 4.5 \\ \hline
+fcAaBcYFo1YqetIjs9l8Iw   & {[}{[}0.9566222088265397{]}{]} & Sungate Diner          & 4.5 \\ \hline
+uh-387pbyipzjCMcj5Dy6w   & {[}{[}0.9566222088265397{]}{]} & Las Palmas Del Sur     & 4.5 \\ \hline
+\end{tabular}
+\end{table}
+Also you can see that they are all restaurants that cook Mexican style.
 \section{Collaborative filtering with ALS ml library}
 \section{Content based recommendation from scratch in PySpark}
 
