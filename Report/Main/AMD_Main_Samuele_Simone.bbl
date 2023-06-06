@@ -1,5 +1,10 @@
 \begin{thebibliography}{10}
 
+\bibitem{latextemp}
+Giorgio Presti.
+\newblock Template latex.
+\newblock \url{https://homes.di.unimi.it/presti/index.php?p=3&l=1}, 2023.
+
 \bibitem{rajaraman2014mining}
 Anand Rajaraman, Jure Leskovec, and Jeffrey~D. Ullman.
 \newblock {\em Mining Massive Datasets}.
@@ -7,43 +12,73 @@ Anand Rajaraman, Jure Leskovec, and Jeffrey~D. Ullman.
 
 \bibitem{pysparkoverview}
 Apache Spark.
-\newblock Pyspark overview, 2023.
+\newblock Pyspark overview.
+\newblock \url{https://spark.apache.org/docs/latest/api/python/}, 2023.
 
 \bibitem{sparkconf}
 Apache Spark.
-\newblock pyspark.sparkconf, 2023.
+\newblock pyspark.sparkconf.
+\newblock
+  \url{https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.SparkConf.html},
+  2023.
 
 \bibitem{sparksession}
 Apache Spark.
-\newblock pyspark.sparksession, 2023.
+\newblock pyspark.sparksession.
+\newblock
+  \url{https://spark.apache.org/docs/3.2.0/api/java/org/apache/spark/sql/SparkSession.html},
+  2023.
 
 \bibitem{pysparkml}
 Apache Spark.
-\newblock pyspark.ml, 2023.
+\newblock pyspark.ml.
+\newblock \url{https://spark.apache.org/docs/2.2.0/api/python/pyspark.ml.html},
+  2023.
 
 \bibitem{pysparkfunc}
 Apache Spark.
-\newblock pyspark.sql.function, 2023.
+\newblock pyspark.sql.function.
+\newblock
+  \url{https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/functions.html},
+  2023.
 
 \bibitem{kaggle}
 Mahmoud~Hassan Mahmoud.
-\newblock What is kaggle?, 2022.
+\newblock What is kaggle?
+\newblock \url{https://www.kaggle.com/general/328265}, 2022.
 
 \bibitem{pandas}
 Pandas.
-\newblock Pandas package overview, 2023.
+\newblock Pandas package overview.
+\newblock \url{https://pandas.pydata.org/docs/getting_started/overview.html},
+  2023.
 
 \bibitem{scikit}
 codecademy.
-\newblock What is scikit-learn?, 2023.
+\newblock What is scikit-learn?
+\newblock \url{https://www.codecademy.com/article/scikit-learn}, 2023.
 
 \bibitem{numpy}
 codecademy.
-\newblock What is numpy?, 2023.
+\newblock What is numpy?
+\newblock \url{https://numpy.org/doc/stable/user/whatisnumpy.html}, 2023.
+
+\bibitem{notekaggle}
+Aryan Sakhala.
+\newblock Normalized discounted cumulative gain.
+\newblock \url{https://www.kaggle.com/code/aryansakhala/recommend}, 2021.
 
 \bibitem{matrixfact}
 towardsdatascience.
 \newblock Alternating least square (als) matrix factorization in collaborative
-  filtering, 2018.
+  filtering.
+\newblock \url{https://towardsdatascience.com}, 2018.
+
+\bibitem{ndcgtow}
+towardsdatascience.
+\newblock Normalized discounted cumulative gain.
+\newblock
+  \url{https://towardsdatascience.com/normalized-discounted-cumulative-gain-37e6f75090e9},
+  2020.
 
 \end{thebibliography}

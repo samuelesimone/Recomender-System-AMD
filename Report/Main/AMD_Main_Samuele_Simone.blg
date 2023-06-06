@@ -3,44 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: AMD_Main_Samuele_Simone.aux
 The style file: unsrt.bst
 Database file #1: biblio.bib
-You've used 11 entries,
+You've used 14 entries,
             1791 wiz_defined-function locations,
-            478 strings with 4083 characters,
-and the built_in function-call counts, 1379 in all, are:
-= -- 93
-> -- 51
+            501 strings with 5094 characters,
+and the built_in function-call counts, 1876 in all, are:
+= -- 156
+> -- 63
 < -- 0
-+ -- 24
-- -- 13
-* -- 20
-:= -- 210
-add.period$ -- 23
-call.type$ -- 11
-change.case$ -- 10
++ -- 30
+- -- 16
+* -- 23
+:= -- 300
+add.period$ -- 42
+call.type$ -- 14
+change.case$ -- 13
 chr.to.int$ -- 0
-cite$ -- 11
-duplicate$ -- 60
-empty$ -- 200
-format.name$ -- 13
-if$ -- 322
+cite$ -- 14
+duplicate$ -- 75
+empty$ -- 254
+format.name$ -- 16
+if$ -- 445
 int.to.chr$ -- 0
-int.to.str$ -- 11
+int.to.str$ -- 14
 missing$ -- 2
-newline$ -- 48
-num.names$ -- 11
-pop$ -- 77
+newline$ -- 73
+num.names$ -- 14
+pop$ -- 85
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 41
+skip$ -- 40
 stack$ -- 0
 substring$ -- 0
-swap$ -- 11
+swap$ -- 14
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 11
-width$ -- 13
-write$ -- 92
+while$ -- 14
+width$ -- 16
+write$ -- 142

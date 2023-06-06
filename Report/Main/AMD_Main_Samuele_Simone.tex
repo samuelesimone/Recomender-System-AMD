@@ -28,7 +28,7 @@
 \usepackage[a4paper]{geometry}		% Formato del foglio
 \usepackage[english]{babel}			% Supporto per l'italiano
 \usepackage[utf8]{inputenc}			% Supporto per UTF-8
-%\usepackage[a-1b]{pdfx}			% File conforme allo standard PDF-A (obbligatorio per la consegna)
+\usepackage[a-1b]{pdfx}			% File conforme allo standard PDF-A (obbligatorio per la consegna)
 
 % Package per la grafica
 \usepackage{graphicx}				% Funzioni avanzate per le immagini
@@ -43,6 +43,7 @@
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codeorange}{rgb}{0.72,0.54,0.45}
 \definecolor{backcolour}{rgb}{0.10,0.13,0.14}
+\definecolor{myorange}{RGB}{245,156,74}
 \definecolor{keyw}{rgb}{0.60,0.85,0.98}
 \lstdefinestyle{mystyle}{
     backgroundcolor=\color{backcolour},   
@@ -78,7 +79,7 @@
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
-    urlcolor=cyan,
+    urlcolor=myorange,
     filecolor=magenta,  
     }
 \begin{document}
@@ -89,8 +90,8 @@
 
 \afterpreface
 
-This report is made up of 8 chapters. In the \textbf{Chapter~\ref{ch:introduction}} we give at the reader a general view of what is a recommender system and where we can find it.
-\textbf{Chapter~\ref{ch:environment}}, we start to discuss about the development setup for the project. Then, in the \textbf{Chapter~\ref{ch:dataset}} we focus on the dataset, how is composed and we explore the data. Later, in the \textbf{Chapter~\ref{ch:recsys}} we explain the recommender system. the different approaches and the mechanisms behind. In order to evaluate the project developed there are some notion about scalability and complexity in the \textbf{Chapter~\ref{ch:scalability}}. Consequently , we summarize the aspects and the results obtained during the various experiments in the \textbf{Chapter~\ref{ch:results}}. Finally there is the conclusion in last \textbf{Chapter~\ref{ch:conclusion}}.
+The report is made up of 7 chapters based on this template\cite{latextemp} and adapted for our purpose. In the \textbf{Chapter~\ref{ch:introduction}} we give at the reader a general view of what is a recommender system and where we can find it.
+\textbf{Chapter~\ref{ch:environment}}, we start to discuss about the development setup for the project. Then, in the \textbf{Chapter~\ref{ch:dataset}} we focus on the dataset, how is composed and we explore the data. Later, in the \textbf{Chapter~\ref{ch:recsys}} we explain the recommender system. the different approaches and the mechanisms behind. Then in the \textbf{Chapter \ref{ch:recsyscontbased}} we enter deeper by showing the code of different approaches and some experiments. Some notion about scalability and complexity are given in the \textbf{Chapter~\ref{ch:scalability}}. In order to evaluate the project developed we are talking about some metrics like CG,NDCG. Consequently , we summarize the aspects and the results obtained during the various  in the \textbf{Chapter~\ref{ch:resultsconc}}.
 
 \chapter{Introduction}\label{ch:introduction}
 A recommender system is used everywhere nowadays. Indeed all big companies are pushing in these systems because they can increase the sells about their product, e.g., when we are scrolling a product on Amazon, then they show us a list of recommendation based on the item selected.\par
@@ -341,10 +342,10 @@ So now I will show the results obtained.
 I choose the \texttt{8071} restaurant index called \texttt{Adelita Taqueria \& Restaurant}.
 It's a mexican restaurant located in 1108 S 9th St Philadelphia, PA 19147. In the note the link of the restaurant on Yelp.\footnote{\url{https://www.yelp.com/biz/adelita-taqueria-and-restaurant-philadelphia?osq=Adelita+Taqueria\%26+Restaurant}}
 The restaurant counts 39 reviews with an average rating of 4.5 stars.\par
-The similar business that the system recommend are these reported in the Table \ref{simrespand} where there are linked their Yelp page.
+The similar business that the system recommend are these reported in the Table \ref{tab:simrespand} where there are linked their Yelp page.
 \begin{table}[]
 \caption{Top similar business recommended in Pandas}
-\label{simrespand}
+\label{tab:simrespand}
 \begin{tabular}{|l|l|l|l|}
 \hline
      & name                           & stars & cosine\_similarity \\ \hline
@@ -356,10 +357,10 @@ The similar business that the system recommend are these reported in the Table \
 \end{tabular}
 \end{table}
 They are all mexican restaurant so it's perfectly matching our selected restaurant.
-I tried also to use a cosine similarity library from \texttt{from sklearn.metrics.pairwise import cosine\_similarity} and the results are quite similar as shown in Table \ref{simrespandsklearn}.
+I tried also to use a cosine similarity library from \texttt{from sklearn.metrics.pairwise import cosine\_similarity} and the results are quite similar as shown in Table \ref{tab:simrespandsklearn}.
 \begin{table}[]
 \caption{Top similar business recommended in Pandas with sklearn cosine similarity}
-\label{simrespandsklearn}
+\label{tab:simrespandsklearn}
 \begin{tabular}{|l|l|l|}
 \hline
 name                        & cosine similarity  & stars \\ \hline
@@ -370,8 +371,8 @@ El Limon - Norristown       & 0.9128709291752769 & 4     \\ \hline
 \href{https://www.yelp.com/biz/plaza-garibaldi-philadelphia-3?osq=Plaza+Garibaldi}{Plaza Garibaldi}             & 0.8999999999999999 & 4     \\ \hline
 \end{tabular}
 \end{table}
-\section{Business similarity suggestion with k-NN algorithm}
-I continued my search for similar restaurants also based on the k-nn algorithm. In brief it's a a supervised machine learning approach called k-nearest neighbors (k-NN) and it is utilized for both classification and regression problems. It is a non-parametric algorithm that bases its predictions on how closely new input data and training examples resemble each other. \par
+\section{Business similarity suggestion with k-NN algorithm}\label{sec:knn-sim}
+I continued my search for similar restaurants also based on the k-nn algorithm inspired by a kaggle notebook \cite{notekaggle}. In brief it's a a supervised machine learning approach called k-nearest neighbors (k-NN) and it is utilized for both classification and regression problems. It is a non-parametric algorithm that bases its predictions on how closely new input data and training examples resemble each other. \par
 The "k" in the k-NN method denotes how many nearest neighbors are taken into account while producing predictions.
 The steps done are the following: 
 \begin{itemize}
@@ -410,9 +411,10 @@ assembler = VectorAssembler(inputCols=columns, outputCol='features')
 df_matrix = assembler.transform(df_filled).select('business_id', 'features')
 \end{lstlisting}
 After that I proceeded to run the same test on the \textit{Adelita Taqueria \& Restaurant} using \texttt{cosine\_similarity\_spark} slightly modified to make it work properly with the PySpark pipeline.
-In this case I wanted to select 15 as the number of recommendations.This is the table obtained:\par
+In this case I wanted to select 15 as the number of recommendations.This is the Table \ref{tab:topbuspyspark} obtained:\par
 \begin{table}[h]
 \caption{Top similar business recommended in PySpark}
+\label{tab:topbuspyspark}
 \begin{tabular}{|l|l|l|l|}
 \hline
 \multicolumn{1}{|c|}{business\_id}            & \multicolumn{1}{c|}{cosine\_similarity} & \multicolumn{1}{c|}{name}                        & \multicolumn{1}{c|}{stars} \\ \hline
@@ -453,7 +455,7 @@ $$r_{ui} = \sum_{f=0}^{nfactors} H_{u,f}W_{f,i}$$
 Rating of item i given by user u can be expressed as a dot product of the user latent vector and the item latent vector.  Latent factors are the features in the lower dimension latent space projected from user-item interaction matrix.\par
 Increasing the number of latent factors will improve personalization, until the number of factors becomes too high, at which point the model starts to overfit. A common strategy to avoid overfitting is to add regularization terms to the objective function.\par
 The objective of matrix factorization is to minimize the error between true rating and predicted rating.
-\subsection{Alternating Least Square (ALS) with Spark ML}
+\subsection{Alternating Least Square (ALS) with Spark ML}\label{sec:als}
 Alternating Least Squares (ALS) is a parallel matrix factorization algorithm. It is implemented in Apache Spark ML and specifically designed for large-scale collaborative filtering problems. ALS effectively addresses scalability and sparsity issues commonly encountered with Ratings data. Furthermore, ALS exhibits simplicity and demonstrates excellent scalability even when handling massive datasets. The main points are:
 \begin{itemize}
 \item ALS uses L2 regularization
@@ -502,17 +504,304 @@ ndcg = (
 )
 \end{lstlisting}
 Printing the metric we get \texttt{ndcg = 1.0}. A value of NDCG of 1 indicates that the system has produced perfect recommendations corresponding to user preferences.
-\section{Content based recommendation from scratch in PySpark}
+\section{Content based recommendation from scratch in PySpark}\label{sec:cbrfsip}
+Finally we enter in the main section about the project. We introduce how I created a \textit{Content-based} reccomendation system from scratch in PySpark.
+To do this, I started by constructing the \texttt{df\_final\_content\_spark} which contains all the information related to the restaurants such as the categories and attributes coded in 0-1, its rating (\textit{stars}) and its \textit{business\_id}. Through the latter it is possible to make a join with \texttt{df\_review\_spark\_indexed} so that we also get the information about the user and his explicit rating for a given business through the review.\par
+I decided in order to speed up the computation to reduce the data according to this operation:
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:fractiondata},caption={Fractioning data}]
+merged_df = merged_df.sample(fraction=0.001, seed=42)
+#merged_df.count()
+\end{lstlisting}
+Nevertheless we have a good amount to proceed the with the recommendation system.\par
+To make the system user-centric, I weighted the matrix obtained with the user's ratings in such a way that it is considered in the system. In fact here is the code:
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:weightedmatrix},caption={Weighted the business matrix with the user review rate}]
+# Select all columns and excluding these 'business_id_index', 'stars_review', 'user_id_index'
+columns_to_multiply = [column for column in merged_df.columns if column not in ['business_id_index', 'stars_review', 'user_id_index','stars']]
 
+# Perform the product over each column
+for column in columns_to_multiply:
+    weighted_merged_df = merged_df.withColumn(column, col(column) * col('stars_review'))
+# this is the weighted cat matrix
+#weighted_merged_df.show()
+\end{lstlisting}
+This is useful to me because by grouping by user\_id and summing over the columns I get \texttt{user\_profile}.
+However I need to do some preprocessing until I get the normalized user profile called in the code \texttt{user\_profile\_normalized\_df}.\par
+So the in the same matter we can obtain \texttt{business\_profile\_normalized\_df}.
+Finally with this two profiles we can create the matrix with a crossJoin like in snippet:
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:crossbus},caption={Cross join between profiles}]
+# Union of business profiles and user profiles
+cross_business_user = business_profile_normalized_df.crossJoin(user_profile_normalized_df)
+\end{lstlisting}
+The structure of \texttt{cross\_business\_user}  is shown in the Table \ref{tab:crossbustab}
+\begin{table}[]
+\caption{Cross\_business\_user show example}
+\label{tab:crossbustab}
+\begin{tabular}{|l|l|l|l|}
+\hline
+business\_id\_index & user\_id\_index & user\_features        & business\_features     \\ \hline
+128.0               & 14269.0         & (289,{[}3,9,22,23,2.. & (292,{[}0,1,5,11,24... \\ \hline
+\end{tabular}
+\end{table}
+As you can see the features have different dimensions. So before calculating the cosine similarity we need to fix this issue. To aim this here the snippet:
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:featuresalign},caption={Cross join between profiles}]
+from pyspark.ml.linalg import Vectors, VectorUDT
+from pyspark.sql.functions import udf
+from pyspark.sql.types import IntegerType
+
+# Cosine similarity function
+def cosine_similarity(v1, v2):
+    dot_product = float(v1.dot(v2))
+    norm_v1 = float(v1.norm(2))
+    norm_v2 = float(v2.norm(2))
+    similarity = dot_product / (norm_v1 * norm_v2)
+    return similarity
+
+# UDF to truncate or expand feature vectors
+def resize_features(features, max_dimension):
+    return Vectors.sparse(max_dimension, features.indices, features.values)
+
+# UDF to calculate cosine similarity as a column in a DataFrame
+cosine_similarity_udf = udf(cosine_similarity)
+
+
+# Find the maximum size between the two DataFrames
+max_dimension = max(cross_business_user.withColumn("size", udf(lambda x: x.size, IntegerType())("business_features")).selectExpr("max(size)").collect()[0][0],
+                    cross_business_user.withColumn("size", udf(lambda x: x.size, IntegerType())("user_features")).selectExpr("max(size)").collect()[0][0])
+
+# Truncation or expansion of feature vectors
+cross_business_user = cross_business_user.withColumn("business_features_resized", udf(lambda x: resize_features(x, max_dimension), VectorUDT())("business_features")) \
+                                         .withColumn("user_features_resized", udf(lambda x: resize_features(x, max_dimension), VectorUDT())("user_features"))
+\end{lstlisting}
+As you can see we find the maximum dimension and we check if the column should be expanded or restricted based on the max.
+Now it's possible to apply \texttt{cosine\_similarity} between the business features and the user features get \texttt{similarity\_df}. Look at the schema in Listing \ref{lst:schemasim}:
+\begin{lstlisting}[language={bash},label={lst:schemasim},caption={Similarity df schema}]
+root
+ |-- business_id_index: double (nullable = false)
+ |-- business_features: vector (nullable = true)
+ |-- user_id_index: double (nullable = false)
+ |-- user_features: vector (nullable = true)
+ |-- business_features_resized: vector (nullable = true)
+ |-- user_features_resized: vector (nullable = true)
+ |-- similarity: string (nullable = true)
+\end{lstlisting}
+There is the column \texttt{similarity} that allows us to perform the recommendation.
+Lets select our user of interest, in this case, the same one that we have choose in the section \ref{sec:als}. Then we order the similarity in desc way and filter by the user of interest.\par
+Now is time to show the recommended business:
+\begin{lstlisting}[language={Python},label={lst:recommendedbusinesses},caption={Recommended businesses calculation}]
+#Union with the DataFrame business_profiles_df to obtain information about recommended businesses
+df_res_sel = df_res_sel.withColumnRenamed('business_id_index','df_res_sel_business_id_index')
+recommended_businesses = user_similarity.join(df_res_sel, user_similarity.business_id_index == df_res_sel.df_res_sel_business_id_index, how='inner').drop('df_res_sel_business_id_index').select("business_id_index","name","business_features","user_id_index","user_features","business_features_resized","user_features_resized","similarity")
+
+#Visualize the recommended business
+#recommended_businesses.show(5)
+\end{lstlisting}
+To understand if the recommendation are good enough we need to interpreter the data. Indeed 
+after that, I created a \texttt{historical\_data\_stars} that is useful to our prediction.
+Indeed \texttt{recommended\_businesses} is a join of dfs that give us a complete view of the prediction.\par
+We build the prediction df in this way: 
+\begin{lstlisting}[language={Python},label={lst:predictiondf},caption={Build prediction df}]
+from pyspark.sql.functions import udf
+from pyspark.sql.types import ArrayType, DoubleType
+
+# Define a UDF (User Defined Function) to convert the struct column to an array of double
+convert_array_udf = udf(lambda struct_col: struct_col["values"], ArrayType(DoubleType()))
+
+# Apply the UDF to convert the column to the correct type in 'recommended_businesses'
+recommended_businesses = recommended_businesses.withColumn("business_features", convert_array_udf("business_features"))
+
+ground_truth = cross_business_user.withColumn("business_features_resized", convert_array_udf("business_features_resized"))
+
+
+# Perform the join and select the desired columns
+predictions = recommended_businesses.join(historical_data_stars, ["user_id_index", "business_id_index"], how="inner") \
+                                    .na.fill(0) \
+                                    .select("user_id_index", "business_id_index", "business_features", "stars_review")
+\end{lstlisting}
+so by joining the historical data with the recommended\_business. \par
+I finally create a single joined df that contains all the necessary information on which I can perform the normalized discounted cumulative gain calculation.
+The result is \texttt{NDCG: 0.33141829507855797}.
 \chapter{Scalability and complexity}\label{ch:scalability}
+So let us discuss the scalability and complexity aspects. Starting from the K-Nearest Neighbors algorithm (section \ref{sec:knn-sim}) used in the code of the project in, the complexity will depend mainly on the size of the data set and the value of K. The computational complexity of the K-NN is O(n * m * d), where:
+\begin{itemize}
+\item n is the number of points in the data set (user or business profiles)
+\item m is the number of neighbors to be considered (value of K)
+\item d is the size of the feature vector (number of attributes or profile dimensions)
+\end{itemize}
+Thus, if you have a large dataset and a high value of K, the complexity can become significant. However, K-NN can be parallelized and scaled easily on distributed architectures such as Apache Spark, allowing large datasets to be handled.\par 
+If, on the other hand, we talk about ALS, its training complexity is dominated by the number of iterations and the number of latent (rank) factors specified. Specifically, the complexity for each iteration of the ALS algorithm is approximately O(m * n * rank), where m is the number of users and n is the number of recommendable items. \par 
+On the other hand, as for the content-based recommender system from scratch in PySpark we have to consider that the creation of the weighted matrix for example is O(n) where n is the number of features. If we consider the code provided for the calculation of the cross\_bussiness\_user matrix and all the above operations in the Listing \ref{lst:featuresalign} then we can say:
+\begin{itemize}
+\item Calculation of cosine similarity (cosine\_similarity): the complexity will depend mainly on the size of the feature vectors passed as input (v1 and v2). Assuming they have size n then it will be O(n)
+\item UDF for resizing feature vectors (resize\_features): assuming the number of nonzero elements is m then it will be O(m)
+\item Calculating the maximum size between the two DataFrames: assuming they have k rows the complexity will be O(k).
+\item Resizing feature vectors in DataFrames: . If we assume that the number of rows is k and the number of nonzero elements in the feature vectors is m, then the complexity will be O(k * m).
+\end{itemize}
+So in general we can approximate the computations of this important stage of the recommender system as an O(n + m + k + k * m).
+In general using an approach such as PySpark allows us to exploit some aspects related to distributed computation by dividing the work across several machines and solving problems in parallel. Also if we had an HDFS like Apache Hadoop available we could use partitions in such a way as to balance the load.
 \section{System specification}\label{sec:sysspec}
-\chapter{Results and experiments}\label{ch:results}
-\section{NDCG}\label{sec:ndcg}
-\chapter{Conclusion}\label{ch:conclusion}
-%dataset reduced
+All the code was executed on \textit{Google Colab}. Date of last execution: \texttt{06/06/2023}. The System specification are reported here:
+\begin{itemize}
+\item Disk information
+\begin{lstlisting}[language={bash},label={lst:diskinfo},caption={Disk information}]
+!df -h
+
+Filesystem      Size  Used Avail Use% Mounted on
+overlay         108G   24G   85G  22% /
+tmpfs            64M     0   64M   0% /dev
+shm             5.8G     0  5.8G   0% /dev/shm
+/dev/root       2.0G 1005M  952M  52% /usr/sbin/docker-init
+tmpfs           6.4G  220K  6.4G   1% /var/colab
+/dev/sda1        41G   25G   16G  61% /etc/hosts
+tmpfs           6.4G     0  6.4G   0% /proc/acpi
+tmpfs           6.4G     0  6.4G   0% /proc/scsi
+tmpfs           6.4G     0  6.4G   0% /sys/firmware
+\end{lstlisting}
+\item CPU specs
+\begin{lstlisting}[language={bash},label={lst:cpuspec},caption={CPU spec}]
+!cat /proc/cpuinfo
+
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU @ 2.20GHz
+stepping	: 0
+microcode	: 0xffffffff
+cpu MHz		: 2199.998
+cache size	: 56320 KB
+physical id	: 0
+siblings	: 2
+core id		: 0
+cpu cores	: 1
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt arat md_clear arch_capabilities
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa mmio_stale_data retbleed
+bogomips	: 4399.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU @ 2.20GHz
+stepping	: 0
+microcode	: 0xffffffff
+cpu MHz		: 2199.998
+cache size	: 56320 KB
+physical id	: 0
+siblings	: 2
+core id		: 0
+cpu cores	: 1
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt arat md_clear arch_capabilities
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa mmio_stale_data retbleed
+bogomips	: 4399.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+\end{lstlisting}
+\item Memory info
+\begin{lstlisting}[language={bash},label={lst:meminfo},caption={Memory information}]
+!cat /proc/meminfo
+
+MemTotal:       13294264 kB
+MemFree:         9219976 kB
+MemAvailable:   12020892 kB
+Buffers:           62876 kB
+Cached:          2930080 kB
+SwapCached:            0 kB
+Active:           854108 kB
+Inactive:        2969768 kB
+Active(anon):       1140 kB
+Inactive(anon):   831364 kB
+Active(file):     852968 kB
+Inactive(file):  2138404 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:               132 kB
+Writeback:             0 kB
+AnonPages:        829632 kB
+Mapped:           280996 kB
+Shmem:              1584 kB
+KReclaimable:     100996 kB
+Slab:             137044 kB
+SReclaimable:     100996 kB
+SUnreclaim:        36048 kB
+KernelStack:        4492 kB
+PageTables:        18972 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     6647132 kB
+Committed_AS:    1987656 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:        9444 kB
+VmallocChunk:          0 kB
+Percpu:             1320 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:     22528 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:       82744 kB
+DirectMap2M:     4108288 kB
+DirectMap1G:    11534336 kB
+\end{lstlisting}
+
+\end{itemize}
+\chapter{Results and conclusion}\label{ch:resultsconc}
+To evaluate the system I used the Normalized Discounted Cumulative Gain (NDCG).
+\section{Normalized Discounted Cumulative Gain (NDCG)}\label{sec:ndcg}
+Before talking about the NDCG we need to understand what is CG (Cumulative Gain) and DCG (Discounted Cumulative Gain) \cite{ndcgtow}. Then there are two main assumptions:
+\begin{itemize}
+\item  Highly relevant documents are more useful when appearing earlier in the search engine results list.
+\item Highly relevant documents are more useful than marginally relevant documents, which are more useful than non-relevant documents
+\end{itemize}
+\subsubsection{CG}
+If every recommendation has a graded relevance score associated with it, CG is the sum of graded relevance values of all results in a search result list as reported in this formula:
+$$CG_{p} = \sum_{i=1}^{p}rel_{i}$$ 
+The Cumulative Gain at a particular rank position p, where the $rel_{i}$ is the graded relevance of the result at position i.\par
+The problem with CG is that it does not take into consideration the rank of the result set when determining the usefulness of a result set.
+\subsubsection{DCG}
+To overcome this we introduce DCG. DCG penalizes highly relevant documents that appear lower in the search by reducing the graded relevance value logarithimically proportional to the position of the result.
+$$DCG_{p} = \sum_{i=1}^{p}\frac{2^{rel_{i}} - 1}{log_{2}(i+1)}$$
+\subsubsection{NDCG}
+An issue arises with DCG when we want to compare the search engines performance from one query to the next because search results list can vary in length depending on the query that has been provided.We perform this by sorting all the relevant documents in the corpus by their relative relevance producing the max possible DCG through position p (a.k.a Ideal Discounted Cumulative Gain). Here the formula:
+$$nDCG_{p} = \frac{DCG}{IDCG_{p}}$$ where 
+$$IDCG_{p} = \sum_{i=1}^{|REL_{p}|} \frac{2^{rel_{i}} - 1}{log_{2}(i+1)}$$
+REL\_p represents the list of relevant documents (ordered by their relevance) in the corpus up to position p.\par
+The ratios will always be in the range of [0, 1] with 1 being a perfect score — meaning that the DCG is the same as the IDCG.  It was what happened in the section \ref{sec:als}. With the recommender system seen in the section \ref{sec:cbrfsip} the \texttt{NDCG: 0.33141829507855797}.This would indicate a low result suggesting recommended results that may not be very relevant. It could have been influenced by the reduction of the dataset or perhaps more user-related information could also be included through a textual analysis on the reviews.
+
 
 
 \lstlistoflistings
+\listoffigures
+\listoftables
 \bibliographystyle{unsrt}
 \bibliography{biblio}
 \end{document}

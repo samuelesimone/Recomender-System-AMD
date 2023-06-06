@@ -20,6 +20,7 @@
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \babel@aux{english}{}
 \@writefile{toc}{\contentsline {chapter}{Index}{}{Doc-Start}\protected@file@percent }
+\citation{latextemp}
 \citation{rajaraman2014mining}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
@@ -90,22 +91,26 @@
 \newlabel{bussimpand}{{5.1}{13}{Business similarity suggestion with Pandas and cosine similarity}{section.5.1}{}}
 \newlabel{lst:cosinesim}{{5.1}{13}{Cosine similarity function}{lstlisting.5.1}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {5.1}Cosine similarity function}{13}{lstlisting.5.1}\protected@file@percent }
+\citation{notekaggle}
 \newlabel{lst:simpandas}{{5.2}{14}{Suggestion system in Pandas}{lstlisting.5.2}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {5.2}Suggestion system in Pandas}{14}{lstlisting.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Experiment}{14}{subsection.5.1.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Top similar business recommended in Pandas}}{15}{table.5.3}\protected@file@percent }
-\newlabel{simrespand}{{3}{15}{Top similar business recommended in Pandas}{table.5.3}{}}
+\newlabel{tab:simrespand}{{3}{15}{Top similar business recommended in Pandas}{table.5.3}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Top similar business recommended in Pandas with sklearn cosine similarity}}{15}{table.5.4}\protected@file@percent }
-\newlabel{simrespandsklearn}{{4}{15}{Top similar business recommended in Pandas with sklearn cosine similarity}{table.5.4}{}}
+\newlabel{tab:simrespandsklearn}{{4}{15}{Top similar business recommended in Pandas with sklearn cosine similarity}{table.5.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.2}Business similarity suggestion with k-NN algorithm}{15}{section.5.2}\protected@file@percent }
+\newlabel{sec:knn-sim}{{5.2}{15}{Business similarity suggestion with k-NN algorithm}{section.5.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.3}Business similarity suggestion with PySpark and cosine similarity}{16}{section.5.3}\protected@file@percent }
 \newlabel{lst:simpyspark}{{5.3}{16}{Suggestion system in PySpark}{lstlisting.5.3}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {5.3}Suggestion system in PySpark}{16}{lstlisting.5.3}\protected@file@percent }
 \citation{matrixfact}
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Top similar business recommended in PySpark}}{17}{table.5.5}\protected@file@percent }
+\newlabel{tab:topbuspyspark}{{5}{17}{Top similar business recommended in PySpark}{table.5.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.4}Collaborative filtering with ALS ml library}{18}{section.5.4}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Example of Matrix Factorization}}{18}{figure.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Alternating Least Square (ALS) with Spark ML}{19}{subsection.5.4.1}\protected@file@percent }
+\newlabel{sec:als}{{5.4.1}{19}{Alternating Least Square (ALS) with Spark ML}{subsection.5.4.1}{}}
 \newlabel{lst:splittraintest}{{5.4}{19}{Splitting dataset in training and test set for ALS}{lstlisting.5.4}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {5.4}Splitting dataset in training and test set for ALS}{19}{lstlisting.5.4}\protected@file@percent }
 \newlabel{lst:splittraintest}{{5.5}{19}{Building recommended system model based on the ALS model}{lstlisting.5.5}{}}
@@ -115,33 +120,59 @@
 \newlabel{lst:ndcgals}{{5.7}{20}{Calculating the ndcg over the predictions df obatined in ALS}{lstlisting.5.7}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {5.7}Calculating the ndcg over the predictions df obatined in ALS}{20}{lstlisting.5.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5.5}Content based recommendation from scratch in PySpark}{21}{section.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Scalability and complexity}{22}{chapter.6}\protected@file@percent }
+\newlabel{sec:cbrfsip}{{5.5}{21}{Content based recommendation from scratch in PySpark}{section.5.5}{}}
+\newlabel{lst:fractiondata}{{5.8}{21}{Fractioning data}{lstlisting.5.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.8}Fractioning data}{21}{lstlisting.5.8}\protected@file@percent }
+\newlabel{lst:weightedmatrix}{{5.9}{21}{Weighted the business matrix with the user review rate}{lstlisting.5.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.9}Weighted the business matrix with the user review rate}{21}{lstlisting.5.9}\protected@file@percent }
+\newlabel{lst:crossbus}{{5.10}{21}{Cross join between profiles}{lstlisting.5.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.10}Cross join between profiles}{21}{lstlisting.5.10}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Cross\_business\_user show example}}{22}{table.5.6}\protected@file@percent }
+\newlabel{tab:crossbustab}{{6}{22}{Cross\_business\_user show example}{table.5.6}{}}
+\newlabel{lst:featuresalign}{{5.11}{22}{Cross join between profiles}{lstlisting.5.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.11}Cross join between profiles}{22}{lstlisting.5.11}\protected@file@percent }
+\newlabel{lst:schemasim}{{5.12}{23}{Similarity df schema}{lstlisting.5.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.12}Similarity df schema}{23}{lstlisting.5.12}\protected@file@percent }
+\newlabel{lst:recommendedbusinesses}{{5.13}{23}{Recommended businesses calculation}{lstlisting.5.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.13}Recommended businesses calculation}{23}{lstlisting.5.13}\protected@file@percent }
+\newlabel{lst:predictiondf}{{5.14}{24}{Build prediction df}{lstlisting.5.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.14}Build prediction df}{24}{lstlisting.5.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Scalability and complexity}{25}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{ch:scalability}{{6}{22}{Scalability and complexity}{chapter.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}System specification}{22}{section.6.1}\protected@file@percent }
-\newlabel{sec:sysspec}{{6.1}{22}{System specification}{section.6.1}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Results and experiments}{23}{chapter.7}\protected@file@percent }
+\newlabel{ch:scalability}{{6}{25}{Scalability and complexity}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}System specification}{26}{section.6.1}\protected@file@percent }
+\newlabel{sec:sysspec}{{6.1}{26}{System specification}{section.6.1}{}}
+\newlabel{lst:diskinfo}{{6.1}{26}{Disk information}{lstlisting.6.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.1}Disk information}{26}{lstlisting.6.1}\protected@file@percent }
+\newlabel{lst:cpuspec}{{6.2}{26}{CPU spec}{lstlisting.6.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.2}CPU spec}{26}{lstlisting.6.2}\protected@file@percent }
+\newlabel{lst:meminfo}{{6.3}{28}{Memory information}{lstlisting.6.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.3}Memory information}{28}{lstlisting.6.3}\protected@file@percent }
+\citation{ndcgtow}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Results and conclusion}{30}{chapter.7}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{ch:results}{{7}{23}{Results and experiments}{chapter.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}NDCG}{23}{section.7.1}\protected@file@percent }
-\newlabel{sec:ndcg}{{7.1}{23}{NDCG}{section.7.1}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{24}{chapter.8}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{ch:conclusion}{{8}{24}{Conclusion}{chapter.8}{}}
+\newlabel{ch:resultsconc}{{7}{30}{Results and conclusion}{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Normalized Discounted Cumulative Gain (NDCG)}{30}{section.7.1}\protected@file@percent }
+\newlabel{sec:ndcg}{{7.1}{30}{Normalized Discounted Cumulative Gain (NDCG)}{section.7.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{CG}{30}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{DCG}{31}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{NDCG}{31}{section*.4}\protected@file@percent }
 \bibstyle{unsrt}
 \bibdata{biblio}
-\bibcite{rajaraman2014mining}{1}
-\bibcite{pysparkoverview}{2}
-\bibcite{sparkconf}{3}
-\bibcite{sparksession}{4}
-\bibcite{pysparkml}{5}
-\bibcite{pysparkfunc}{6}
-\bibcite{kaggle}{7}
-\bibcite{pandas}{8}
-\bibcite{scikit}{9}
-\bibcite{numpy}{10}
-\bibcite{matrixfact}{11}
-\gdef \@abspage@last{30}
+\bibcite{latextemp}{1}
+\bibcite{rajaraman2014mining}{2}
+\bibcite{pysparkoverview}{3}
+\bibcite{sparkconf}{4}
+\bibcite{sparksession}{5}
+\bibcite{pysparkml}{6}
+\bibcite{pysparkfunc}{7}
+\bibcite{kaggle}{8}
+\bibcite{pandas}{9}
+\bibcite{scikit}{10}
+\bibcite{numpy}{11}
+\bibcite{notekaggle}{12}
+\bibcite{matrixfact}{13}
+\bibcite{ndcgtow}{14}
+\gdef \@abspage@last{40}
