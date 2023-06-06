@@ -450,13 +450,64 @@ The advantages of using this approach are mainly two:
 \end{itemize}
 More formally, in a sparse user-item interaction matrix the predicted rating user \textit{u} will give item \textit{i} is computed as:
 $$r_{ui} = \sum_{f=0}^{nfactors} H_{u,f}W_{f,i}$$
-Rating of item i given by user u can be expressed as a dot product of the user latent vector and the item latent vector.  Latent factors are the features in the lower dimension latent space projected from user-item interaction matrix.The objective of matrix factorization is to minimize the error between true rating and predicted rating.
+Rating of item i given by user u can be expressed as a dot product of the user latent vector and the item latent vector.  Latent factors are the features in the lower dimension latent space projected from user-item interaction matrix.\par
+Increasing the number of latent factors will improve personalization, until the number of factors becomes too high, at which point the model starts to overfit. A common strategy to avoid overfitting is to add regularization terms to the objective function.\par
+The objective of matrix factorization is to minimize the error between true rating and predicted rating.
+\subsection{Alternating Least Square (ALS) with Spark ML}
+Alternating Least Squares (ALS) is a parallel matrix factorization algorithm. It is implemented in Apache Spark ML and specifically designed for large-scale collaborative filtering problems. ALS effectively addresses scalability and sparsity issues commonly encountered with Ratings data. Furthermore, ALS exhibits simplicity and demonstrates excellent scalability even when handling massive datasets. The main points are:
+\begin{itemize}
+\item ALS uses L2 regularization
+\item ALS minimizes two loss functions alternatively; It first holds user matrix fixed and runs gradient descent with item matrix; then it holds item matrix fixed and runs gradient descent with user matrix
+\item Its scalability: ALS runs its gradient descent in parallel across multiple partitions
+\end{itemize}
+So let's get to the heart of the matter by taking a look at the code.
+Starting with \texttt{df\_review\_spark\_indexed} I go to convert the profile ids to numeric format using the \texttt{StringIndexer}. Once this is done we go to split the data into training set and test set as reported by this code:
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:splittraintest},caption={Splitting dataset in training and test set for ALS}]
+(training, test) = df_review_spark_indexed.randomSplit([0.8, 0.2])
+\end{lstlisting}
+After that, the recommendation model based on the ALS model is created:
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:splittraintest},caption={Building recommended system model based on the ALS model}]
+# Build the recommendation model using ALS on the training data
+als = ALS(maxIter=5, regParam=0.01, userCol="user_id_index", itemCol="business_id_index", ratingCol="stars_review")
+model = als.fit(training)
+\end{lstlisting}
+There are some parameters that need to be considered such as:
+\begin{itemize}
+\item \texttt{maxIter}: is the maximum number of iterations to run
+\item \texttt{regParam}: specifies the regularization parameter in ALS
+\item \texttt{userCol}: as suggested from the name is the column of the user 
+\item \texttt{itemCol}: as suggested from the name is the column of the item 
+\item \texttt{ratingCol}: as suggested from the name is the column of the rating 
+\end{itemize}
+This operation requires times according to the type of technical specifications you have. Those used in the project are specified in the section \ref{sec:sysspec}.
+Once we have fitted the model with the training data we can proceed to test our model with the test set.
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:predals},caption={Prediction over the test set with the ALS model}]
+predictions = model.transform(test)
+#predictions.show()
+\end{lstlisting}
+Then I proceeded to test the model by filtering for a generic user id which in this case is \texttt{user\_id\index = 14269.0} by descendingly sorting the prediction column. \par
+To then understand the goodness-of-fit of the model, I calculated the NDCG (see the section \ref{sec:ndcg}) by manipulating the df columns as can be seen from the code:
+\begin{lstlisting}[language={Python},escapechar=|,label={lst:ndcgals},caption={Calculating the ndcg over the predictions df obatined in ALS}]
+from pyspark.sql.functions import expr
+
+predictions = predictions.withColumn("rank", expr("row_number() over (partition by user_id_index order by prediction desc)"))
+predictions = predictions.withColumn("dcg", expr("1 / (log2(rank + 1))"))
+predictions = predictions.withColumn("idcg", expr("1 / (log2(1 + rank))"))
+ndcg = (
+    predictions
+    .groupBy("user_id_index")
+    .agg(expr("sum(dcg) as dcg_sum"), expr("sum(idcg) as idcg_sum"))
+    .select(expr("avg(dcg_sum / idcg_sum)").alias("ndcg"))
+    .collect()[0][0]
+)
+\end{lstlisting}
+Printing the metric we get \texttt{ndcg = 1.0}. A value of NDCG of 1 indicates that the system has produced perfect recommendations corresponding to user preferences.
 \section{Content based recommendation from scratch in PySpark}
 
 \chapter{Scalability and complexity}\label{ch:scalability}
-\section{System specification}
+\section{System specification}\label{sec:sysspec}
 \chapter{Results and experiments}\label{ch:results}
-\section{NDCG}
+\section{NDCG}\label{sec:ndcg}
 \chapter{Conclusion}\label{ch:conclusion}
 %dataset reduced
 

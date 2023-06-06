@@ -9,3 +9,7 @@
 \contentsline {lstlisting}{\numberline {5.1}Cosine similarity function}{13}{lstlisting.5.1}%
 \contentsline {lstlisting}{\numberline {5.2}Suggestion system in Pandas}{14}{lstlisting.5.2}%
 \contentsline {lstlisting}{\numberline {5.3}Suggestion system in PySpark}{16}{lstlisting.5.3}%
+\contentsline {lstlisting}{\numberline {5.4}Splitting dataset in training and test set for ALS}{19}{lstlisting.5.4}%
+\contentsline {lstlisting}{\numberline {5.5}Building recommended system model based on the ALS model}{19}{lstlisting.5.5}%
+\contentsline {lstlisting}{\numberline {5.6}Prediction over the test set with the ALS model}{20}{lstlisting.5.6}%
+\contentsline {lstlisting}{\numberline {5.7}Calculating the ndcg over the predictions df obatined in ALS}{20}{lstlisting.5.7}%
