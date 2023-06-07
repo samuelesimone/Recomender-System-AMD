@@ -280,7 +280,7 @@ BestNights & RestaurantsCounterService & WiFi & ... & Smoking & CoatCheck \\ \hl
 \end{table}
 We apply this reasoning also for categories obtaining the \texttt{df\textunderscore categories\textunderscore dm}. It will be useful to create the \texttt{df\textunderscore total}, a fundamental component for the recommender system. So in the Chapter \ref{ch:recsys} we are going to understand how recommendation systems work in theory.
 \chapter{Recommender system}\label{ch:recsys}
-As we mentioned in the Chapter \ref{ch:introduction}, there are two main basic architectures for a recommendation system. In my project I developed from scratch  more on a \textit{Content-Based} recommendation system. They are based on properties of items and the similarity of these are determined by measuring the similarity in their properties.
+As we mentioned in the Chapter \ref{ch:introduction}, there are two main basic architectures for a recommendation system. In my project I developed from scratch a \textit{Content-Based} recommendation system. They are based on properties of items and the similarity of these are determined by measuring the similarity in their properties.
 However I also worked with the ALS as \textit{Collaborative Filtering} using the PySpark library to compare mine with the one developed with the library. In this Chapter we give to the reader the general notion behind recommender system based on the reference book \cite{rajaraman2014mining}.
 \section{Content-Based Recommendations}
 We are starting to understand what is an item profiles. It's a record or collection of records representing important characteristics of the item. For example if we consider the restaurants as type of business of this project, we can say that the features of a restaurants can be all the attributes such as \textit{GoodForKids,BusinessAcceptsBitcoin,DogsAllowed...}.
@@ -533,7 +533,7 @@ Finally with this two profiles we can create the matrix with a crossJoin like in
 cross_business_user = business_profile_normalized_df.crossJoin(user_profile_normalized_df)
 \end{lstlisting}
 The structure of \texttt{cross\_business\_user}  is shown in the Table \ref{tab:crossbustab}
-\begin{table}[]
+\begin{table}[h]
 \caption{Cross\_business\_user show example}
 \label{tab:crossbustab}
 \begin{tabular}{|l|l|l|l|}
